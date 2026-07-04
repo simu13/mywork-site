@@ -1,0 +1,1513 @@
+/* ==========================================================================
+   MyWork — landing site
+   Direction: "the marked-up draft" — document white, dissertation serif
+   (Tinos/Times), red marking pen, highlighter yellow, ruled hairlines.
+   Type roles: Tinos (display) / Archivo (body) / Caveat (pen annotations)
+   / IBM Plex Mono (labels, numbering).
+   ========================================================================== */
+
+:root {
+  --paper: #ffffff;
+  --paper-deep: #f4f7fb;
+  --ink: #101828;
+  --ink-soft: #4e5a71;
+  --pen: #c6392c;
+  --blue: #2563eb;
+  --blue-deep: #1c4fc7;
+  --swoosh: #f9a21b;
+  --marker: #ffd9a0;
+  --marker-soft: #fff3dd;
+  --sky: #eef4fd;
+  --navy: #14264f;
+  --rule: #e7eaf0;
+  --rule-dark: #2e4577;
+  --line-sky: #d9e5f7;
+  --line-yellow: #f6e3bd;
+  --paper-on-ink: #f5f7fb;
+  --soft-on-ink: #a3b4d6;
+  --radius: 14px;
+
+  --font-display: "Tinos", "Times New Roman", Times, serif;
+  --font-text: "Archivo", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-pen: "Caveat", cursive;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+
+  --wrap: 92rem;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+
+  --step-5: clamp(2.6rem, 1.3rem + 4.2vw, 4.6rem);     /* h1 */
+  --step-4: clamp(2.1rem, 1.3rem + 3.2vw, 3.6rem);     /* h2 */
+  --step-2: clamp(1.35rem, 1.15rem + 0.8vw, 1.75rem);  /* h3 */
+  --step-1: clamp(1.05rem, 1rem + 0.35vw, 1.25rem);    /* lede */
+  --step-0: 1.0625rem;
+  --step--1: 0.9rem;
+  --step--2: 0.8125rem;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-text);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+h1 { line-height: 1.14; }
+
+h1 { font-size: var(--step-5); }
+h2 { font-size: var(--step-4); }
+
+a { color: inherit; }
+
+img, svg { max-width: 100%; display: block; }
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: -3rem; left: 1rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus { top: 1rem; }
+
+/* --------------------------------------------------------------------------
+   Typographic atoms
+   -------------------------------------------------------------------------- */
+
+/* Thesis-style numbered eyebrow: "01 · What we do" */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 1.5rem;
+}
+.kicker-light { color: var(--marker); }
+
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 34em;
+}
+
+/* Highlighter swipe */
+mark, .hl {
+  background: linear-gradient(120deg, transparent 0%, var(--marker) 3%, var(--marker) 97%, transparent 100%);
+  color: inherit;
+  padding: 0.05em 0.15em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-text);
+  font-size: var(--step-0);
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.btn-solid {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+.btn-solid:hover { background: var(--blue-deep); border-color: var(--blue-deep); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+.btn-ghost:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+.btn-wide { width: 100%; }
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+::selection { background: var(--marker); color: var(--ink); }
+
+/* Interaction hygiene: proper affordances, no 300ms tap delay,
+   tactile press feedback on primary controls */
+a, button, summary, select, label { touch-action: manipulation; }
+button, summary, select { cursor: pointer; }
+.btn, .nav-cta, .whatsapp-pill { will-change: transform; }
+.btn:active, .whatsapp-pill:active { transform: scale(0.97); }
+
+/* Hand-drawn pen squiggle under a key word */
+.squiggle {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M3 8 Q 16 3, 30 7 T 60 7 T 90 7 T 117 6' fill='none' stroke='%23F9A21B' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 0.32em;
+  background-position: 0 96%;
+  padding-bottom: 0.12em;
+}
+.squiggle-light {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M3 8 Q 16 3, 30 7 T 60 7 T 90 7 T 117 6' fill='none' stroke='%23FFD9A0' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.site-header.is-scrolled { border-bottom-color: var(--rule); }
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1.1rem;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.wordmark em {
+  font-style: italic;
+  font-weight: 400;
+}
+.wordmark span {
+  /* marker swoosh under "Work" */
+  background-image: linear-gradient(var(--swoosh), var(--swoosh));
+  background-repeat: no-repeat;
+  background-size: 100% 2px;
+  background-position: 0 92%;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.site-nav a {
+  font-size: var(--step--1);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--ink-soft);
+  transition: color 0.15s ease;
+}
+.site-nav a:hover { color: var(--blue); }
+
+.nav-cta {
+  padding: 0.5rem 1.15rem;
+  border: 1.5px solid var(--blue);
+  border-radius: 999px;
+  color: var(--blue) !important;
+  transition: background-color 0.18s ease, color 0.18s ease !important;
+}
+.nav-cta:hover {
+  background: var(--blue);
+  color: #fff !important;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0.6rem 0.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.nav-toggle-bar {
+  width: 26px;
+  height: 2px;
+  background: var(--ink);
+  transition: transform 0.2s ease;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+/* --------------------------------------------------------------------------
+   Hero — the marked-up headline
+   -------------------------------------------------------------------------- */
+
+/* Full-width tinted band; content sits on it, a marker-yellow arch bleeds
+   off the right edge so the page owns the whole viewport */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #eaf2fd 0%, #f8fbff 100%);
+  border-bottom: 1px solid var(--line-sky);
+  padding-block: clamp(3.5rem, 8vh, 6.5rem) 0;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: clamp(1.5rem, 5vh, 3.5rem);
+  right: -7vw;
+  width: clamp(320px, 38vw, 660px);
+  aspect-ratio: 0.85;
+  background: var(--marker-soft);
+  border-radius: 999px 999px 28px 28px;
+  transform: rotate(7deg);
+}
+.hero > .wrap,
+.hero > .hero-rule {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: center;
+}
+
+.hero h1 {
+  margin-bottom: 2.25rem;
+  max-width: 14em;
+}
+
+.hero-copy .lede { margin-bottom: 2.25rem; }
+
+/* ---- Photo + marked document composition ---- */
+
+.hero-visual {
+  position: relative;
+  justify-self: end;
+  width: 100%;
+  max-width: 34rem;
+}
+
+.hero-photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 44% 30%;
+  border-radius: 999px 999px var(--radius) var(--radius);
+  display: block;
+  box-shadow: 0 24px 60px rgba(28, 47, 82, 0.18);
+}
+
+/* Floating badge chip, as on the reference heroes */
+.float-chip {
+  position: absolute;
+  top: 3.5rem;
+  right: -1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  box-shadow: 0 8px 22px rgba(28, 47, 82, 0.14);
+  white-space: nowrap;
+}
+.chip-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--pen);
+  animation: chip-pulse 2.2s ease-out infinite;
+}
+@keyframes chip-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(198, 57, 44, 0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(198, 57, 44, 0); }
+}
+
+.hero-doc {
+  position: absolute;
+  left: -4.5rem;
+  bottom: -2.25rem;
+  width: 19.5rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 50px rgba(28, 47, 82, 0.16);
+  padding: 1.1rem 1.25rem 0;
+  transform: rotate(-1.2deg);
+}
+
+.doc-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+.doc-status { color: var(--pen); text-transform: uppercase; }
+
+.doc-line {
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.doc-line-2 { margin-top: 1.4rem; }
+
+.hero-doc del {
+  text-decoration: none;
+  background-image: linear-gradient(var(--pen), var(--pen));
+  background-repeat: no-repeat;
+  background-size: 100% 1.5px;
+  background-position: 0 55%;
+  color: var(--ink-soft);
+}
+
+.hero-doc ins {
+  text-decoration: none;
+  font-family: var(--font-pen);
+  font-weight: 600;
+  font-size: 0.95em;
+  color: var(--pen);
+  display: inline-block;
+  transform: rotate(-2deg) translateY(-0.28em);
+  margin-inline: 0.18em;
+}
+
+.doc-hl {
+  background: linear-gradient(120deg, transparent 0%, var(--marker) 3%, var(--marker) 97%, transparent 100%);
+  padding: 0.05em 0.1em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.doc-note {
+  font-family: var(--font-pen);
+  font-weight: 600;
+  font-size: 1.02rem;
+  line-height: 1.15;
+  color: var(--pen);
+  transform: rotate(-1.5deg);
+  margin: 0.35rem 0 0 1.25rem;
+}
+
+.doc-foot {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--rule);
+  margin-top: 1.3rem;
+  padding-block: 0.8rem 1rem;
+}
+
+/* The marking happens live: strikes, inserts and notes appear in sequence
+   once the card is on screen */
+html.js .hero-doc del,
+html.js .hero-doc ins,
+html.js .hero-doc .doc-hl,
+html.js .hero-doc .doc-note {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+html.js .hero-doc del { opacity: 1; background-size: 0% 1.5px; transition: background-size 0.35s ease; }
+html.js .hero-doc .doc-hl { opacity: 1; background-size: 0% 100%; background-repeat: no-repeat; transition: background-size 0.5s ease; }
+
+html.js .hero-doc.is-visible del { background-size: 100% 1.5px; transition-delay: 1.1s; }
+html.js .hero-doc.is-visible ins { opacity: 1; transition-delay: 1.5s; }
+html.js .hero-doc.is-visible .doc-hl { background-size: 100% 100%; transition-delay: 1.9s; }
+html.js .hero-doc.is-visible .doc-note-1 { opacity: 1; transition-delay: 2.4s; }
+html.js .hero-doc.is-visible .doc-del-2 { transition-delay: 2.9s; }
+html.js .hero-doc.is-visible .doc-note-2 { opacity: 1; transition-delay: 3.3s; }
+
+/* Proofreader's insertion: caret + handwritten word tucked into the line */
+.corrected {
+  display: inline;
+  white-space: nowrap;
+}
+.ins {
+  display: inline-block;
+  font-family: var(--font-pen);
+  font-weight: 600;
+  font-size: 0.42em;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--pen);
+  transform: rotate(-3deg) translateY(-0.55em);
+  margin: 0 0.1em 0 0.05em;
+  white-space: nowrap;
+}
+.caret {
+  font-family: var(--font-pen);
+  font-weight: 600;
+  font-size: 0.6em;
+  color: var(--pen);
+  vertical-align: -0.28em;
+  margin-right: 0.06em;
+}
+
+/* The insertion is "written in" shortly after load */
+html.js .corrected .ins,
+html.js .corrected .caret {
+  opacity: 0;
+  animation: pen-in 0.45s ease 0.7s forwards;
+}
+@keyframes pen-in {
+  from { opacity: 0; transform: rotate(-3.5deg) translateY(-6px); }
+  to   { opacity: 1; transform: rotate(-3.5deg) translateY(0); }
+}
+html.js .corrected .caret { animation-name: caret-in; }
+@keyframes caret-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.hero-split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.hero-rule {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  margin-top: clamp(3rem, 7vh, 5rem);
+  padding-block: 1.1rem;
+  border-top: 1px solid var(--line-sky);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Audience paths — "which one are you?"
+   -------------------------------------------------------------------------- */
+
+.paths { padding-block: clamp(2.5rem, 6vh, 4.5rem); }
+
+.paths-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.path-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.35rem 1.4rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.path-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--blue);
+  box-shadow: 0 12px 28px rgba(28, 47, 82, 0.1);
+}
+
+.path-art {
+  flex: 0 0 auto;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  padding: 0.4rem;
+}
+.path-art svg { width: 100%; height: 100%; }
+.path-art-sky { background: var(--sky); }
+.path-art-yellow { background: var(--marker-soft); }
+.path-art-red { background: #fdeeda; }
+
+.path-body { display: block; min-width: 0; }
+.path-body strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.25rem;
+}
+.path-body span {
+  display: block;
+  font-size: var(--step--1);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.path-go {
+  margin-left: auto;
+  align-self: center;
+  font-size: 1.2rem;
+  color: var(--blue);
+  transition: transform 0.25s ease;
+}
+.path-card:hover .path-go { transform: translateX(4px); }
+
+/* --------------------------------------------------------------------------
+   Statement strip
+   -------------------------------------------------------------------------- */
+
+.strip {
+  background: var(--marker-soft);
+  border-block: 1px solid var(--line-yellow);
+}
+
+.strip-statement {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  max-width: 32em;
+  padding-block: clamp(2rem, 5vw, 3.25rem);
+  text-wrap: balance;
+}
+
+/* --------------------------------------------------------------------------
+   Sections — shared
+   -------------------------------------------------------------------------- */
+
+section { scroll-margin-top: 4.5rem; }
+
+.section-head { margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+
+/* --------------------------------------------------------------------------
+   Services
+   -------------------------------------------------------------------------- */
+
+.services { padding-block: clamp(4rem, 10vh, 7rem); }
+
+.service {
+  display: grid;
+  grid-template-columns: minmax(4rem, 1fr) 3fr;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--rule);
+}
+.service:last-child { border-bottom: 1px solid var(--rule); }
+
+/* Sub-clause numbering, like a contents page */
+.service-index {
+  font-family: var(--font-mono);
+  font-size: var(--step-1);
+  font-weight: 500;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.service-index::after { content: " —"; color: var(--blue); }
+
+.service-body { max-width: 44em; }
+
+.service-body h3 { font-size: var(--step-2); }
+
+/* Handwritten pen comment under the heading */
+.service-tag {
+  font-family: var(--font-pen);
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--pen);
+  transform: rotate(-1deg);
+  transform-origin: left bottom;
+  margin: 0.35rem 0 1.35rem;
+}
+
+.service-body > p { color: var(--ink-soft); }
+
+.service-list {
+  list-style: none;
+  margin-block: 1.5rem;
+}
+.service-list li {
+  position: relative;
+  padding-left: 1.6rem;
+  margin-bottom: 0.55rem;
+}
+.service-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.68em;
+  width: 0.85rem;
+  height: 1.5px;
+  background: var(--blue);
+}
+
+.service-note {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-1);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink);
+  border-left: 2px solid var(--pen);
+  padding-left: 1.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Subjects
+   -------------------------------------------------------------------------- */
+
+.subjects {
+  border-top: 1px solid var(--rule);
+  padding-block: clamp(4rem, 10vh, 7rem);
+}
+
+.subjects-list {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  max-width: 34em;
+}
+.subjects-list span { color: var(--blue); }
+
+.subjects-note {
+  margin-top: 2rem;
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   About — who you'll work with
+   -------------------------------------------------------------------------- */
+
+.about {
+  border-top: 1px solid var(--rule);
+  padding-block: clamp(4rem, 10vh, 7rem);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  gap: clamp(2.5rem, 6vw, 5.5rem);
+  align-items: center;
+}
+
+.about-visual {
+  position: relative;
+  z-index: 0;
+}
+/* Offset highlighter-yellow block behind the photo */
+.about-visual::before {
+  content: "";
+  position: absolute;
+  inset: 1.5rem -1.5rem -1.5rem 1.5rem;
+  background: var(--marker-soft);
+  border-radius: 20px;
+  transform: rotate(-1.5deg);
+  z-index: -1;
+}
+
+.about-photo {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+}
+
+.float-chip-corner {
+  top: auto;
+  right: auto;
+  bottom: 1.1rem;
+  left: -1.1rem;
+}
+
+.about .section-head { margin-bottom: 1.5rem; }
+
+.about-lede {
+  color: var(--ink-soft);
+  max-width: 32em;
+  margin-bottom: 1.75rem;
+}
+
+.check-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem 1.5rem;
+  margin-bottom: 2.25rem;
+}
+.check-list li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: var(--step--1);
+  line-height: 1.5;
+}
+.check-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background-color: var(--sky);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5 L6.5 11.5 L12.5 4.5' stroke='%232563EB' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 62%;
+}
+
+/* --------------------------------------------------------------------------
+   Process — dark "submission portal" band
+   -------------------------------------------------------------------------- */
+
+.process {
+  background: var(--navy);
+  color: var(--paper-on-ink);
+  padding-block: clamp(4rem, 10vh, 7rem);
+}
+.process .kicker { color: var(--marker); }
+
+.steps {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rule-dark);
+}
+
+.step {
+  padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.1rem, 2.5vw, 2rem)
+           clamp(1.75rem, 3vw, 2.5rem) 0;
+}
+.step + .step {
+  border-left: 1px solid var(--rule-dark);
+  padding-left: clamp(1.1rem, 2.5vw, 2rem);
+}
+
+.step-num {
+  font-family: var(--font-mono);
+  font-size: var(--step-1);
+  font-weight: 500;
+  color: var(--marker);
+  display: block;
+  margin-bottom: 1.1rem;
+}
+.step-num::after { content: "."; }
+
+.step h3 {
+  font-size: var(--step-1);
+  margin-bottom: 0.6rem;
+}
+.step p {
+  font-size: var(--step--1);
+  color: var(--soft-on-ink);
+}
+
+/* --------------------------------------------------------------------------
+   Promises
+   -------------------------------------------------------------------------- */
+
+.promises {
+  background: var(--sky);
+  border-block: 1px solid var(--line-sky);
+  padding-block: clamp(4rem, 10vh, 7rem);
+}
+
+.promise-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.promise {
+  background: #fff;
+  border: 1px solid var(--line-sky);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.75rem 1.5rem;
+  overflow: hidden;
+}
+
+.promise-icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 10px;
+  background: var(--sky);
+  margin-bottom: 1rem;
+}
+.promise-icon svg { width: 1.5rem; height: 1.5rem; }
+
+.promise h3 {
+  font-size: var(--step-1);
+  margin-bottom: 0.6rem;
+}
+.promise p {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  max-width: 34em;
+}
+
+/* --------------------------------------------------------------------------
+   Testimonials (hidden until real quotes are added — see index.html)
+   -------------------------------------------------------------------------- */
+
+.testimonials { padding-block: clamp(4rem, 10vh, 7rem); }
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.testimonial {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.75rem;
+}
+
+.testimonial blockquote {
+  position: relative;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-1);
+  font-weight: 400;
+  line-height: 1.45;
+}
+.testimonial blockquote::before {
+  content: "\201C";
+  display: block;
+  font-size: var(--step-4);
+  font-style: normal;
+  line-height: 0.6;
+  color: var(--blue);
+  margin-bottom: 0.75rem;
+}
+
+.testimonial figcaption {
+  margin-top: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   FAQ
+   -------------------------------------------------------------------------- */
+
+.faq {
+  border-top: 1px solid var(--rule);
+  padding-block: clamp(4rem, 10vh, 7rem);
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+.faq .section-head { margin-bottom: 0; position: sticky; top: 6rem; }
+
+.faq-list details {
+  border-bottom: 1px solid var(--rule);
+}
+.faq-list details:first-child { border-top: 1px solid var(--rule); }
+
+.faq-list summary {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  padding: 1.35rem 2.5rem 1.35rem 0;
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+}
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after {
+  content: "+";
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--blue);
+  transition: transform 0.2s ease;
+}
+.faq-list details[open] summary::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.faq-list details p {
+  padding: 0 2.5rem 1.5rem 0;
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Contact — dark band with paper form lines
+   -------------------------------------------------------------------------- */
+
+.contact {
+  background: var(--navy);
+  color: var(--paper-on-ink);
+  padding-block: clamp(4rem, 10vh, 7rem);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.contact-lede {
+  margin-top: 1.75rem;
+  color: var(--soft-on-ink);
+  max-width: 28em;
+}
+
+.contact-email {
+  margin-top: 2.25rem;
+  font-size: var(--step--1);
+  line-height: 2;
+  color: var(--soft-on-ink);
+}
+.contact-email a {
+  color: var(--paper-on-ink);
+  font-weight: 600;
+  text-decoration-color: var(--pen);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.contact-email a:hover { text-decoration-color: var(--marker); }
+
+/* WhatsApp card — replaces the form as the primary contact path */
+.wa-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  color: var(--ink);
+  box-shadow: 0 24px 60px rgba(6, 12, 32, 0.35);
+}
+
+.wa-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+.wa-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: #25d366;
+  animation: chip-pulse 2.2s ease-out infinite;
+}
+
+.wa-bubble {
+  position: relative;
+  background: var(--paper-deep);
+  border-radius: 14px 14px 14px 4px;
+  padding: 0.9rem 1.2rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-1);
+  max-width: 24em;
+  margin-bottom: 1.25rem;
+}
+
+.wa-note {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  margin-bottom: 1.75rem;
+  max-width: 34em;
+}
+
+.wa-ref { margin-bottom: 1.5rem; }
+
+.wa-ref label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 0.5rem;
+}
+.wa-ref label span { text-transform: none; letter-spacing: 0; }
+
+.wa-ref input {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  color: var(--ink);
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.wa-ref input:focus {
+  outline: none;
+  border-color: var(--blue);
+  background: #fff;
+}
+.wa-ref input::placeholder { color: #9aa3b5; }
+
+.wa-ref-hint {
+  margin-top: 0.6rem;
+  font-size: var(--step--2);
+  color: var(--ink-soft);
+}
+.wa-ref-hint strong { color: var(--ink); }
+
+.btn-wa {
+  background: #25d366;
+  border-color: #25d366;
+  color: #fff;
+}
+.btn-wa:hover {
+  background: #1da851;
+  border-color: #1da851;
+  color: #fff;
+}
+
+.wa-alt {
+  margin-top: 1.25rem;
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  text-align: center;
+}
+.wa-alt a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration-color: var(--marker);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.contact-form .field { margin-bottom: 1.4rem; }
+
+.contact-form label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: var(--soft-on-ink);
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  font-family: var(--font-text);
+  font-size: var(--step-0);
+  color: var(--paper-on-ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--rule-dark);
+  border-radius: 0;
+  padding: 0.6rem 0.1rem;
+  transition: border-color 0.15s ease;
+}
+.contact-form select { appearance: none; cursor: pointer; }
+.contact-form select option { color: var(--ink); }
+.contact-form textarea { resize: vertical; }
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-bottom-color: var(--marker);
+}
+
+.contact .btn-solid {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+  margin-top: 0.5rem;
+}
+.contact .btn-solid:hover {
+  background: var(--marker);
+  border-color: var(--marker);
+  color: var(--ink);
+}
+
+.form-status {
+  margin-top: 1rem;
+  font-size: var(--step--1);
+  color: var(--marker);
+  min-height: 1.4em;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  padding-block: clamp(2.5rem, 6vw, 4rem);
+  border-top: 1px solid var(--rule);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.2fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.wordmark-footer { font-size: 1.3rem; }
+
+.footer-tag {
+  margin-top: 0.85rem;
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  max-width: 22em;
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.footer-nav a {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.footer-nav a:hover { color: var(--blue); }
+
+.footer-meta {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+.footer-integrity {
+  margin-top: 0.85rem;
+  max-width: 30em;
+}
+
+/* --------------------------------------------------------------------------
+   WhatsApp chip — a strip of highlighter
+   -------------------------------------------------------------------------- */
+
+.whatsapp-pill {
+  position: fixed;
+  right: clamp(1rem, 3vw, 1.75rem);
+  bottom: clamp(1rem, 3vw, 1.75rem);
+  z-index: 60;
+  padding: 0.7rem 1.3rem;
+  border-radius: 999px;
+  background: var(--marker);
+  color: var(--ink);
+  font-size: var(--step--1);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(19, 23, 32, 0.18);
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+.whatsapp-pill:hover {
+  background: var(--ink);
+  color: var(--marker);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   Interaction layer
+   -------------------------------------------------------------------------- */
+
+/* Reading progress: a red pen line drawn along the top as you scroll */
+.scroll-progress {
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  pointer-events: none;
+}
+.scroll-progress span {
+  display: block;
+  height: 100%;
+  background: var(--blue);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* Highlighter marks sweep across when their block scrolls into view */
+html.js .reveal mark,
+html.js .reveal .hl {
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+}
+html.js .reveal.is-visible mark,
+html.js .reveal.is-visible .hl {
+  background-size: 100% 100%;
+  transition: background-size 0.7s ease 0.35s;
+}
+
+/* Nav links: underline sweeps in on hover */
+.site-nav a:not(.nav-cta) {
+  background-image: linear-gradient(var(--blue), var(--blue));
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  background-position: 0 100%;
+  padding-bottom: 2px;
+  transition: background-size 0.22s ease, color 0.15s ease;
+}
+.site-nav a:not(.nav-cta):hover { background-size: 100% 2px; }
+
+/* Service rows respond to the reader: highlighter sweeps the heading,
+   the index number turns pen-red */
+.service-body h3 {
+  display: inline;
+  background-image: linear-gradient(120deg, var(--marker), var(--marker));
+  background-repeat: no-repeat;
+  background-size: 0% 0.4em;
+  background-position: 0 78%;
+  transition: background-size 0.35s ease;
+}
+.service:hover .service-body h3 { background-size: 100% 0.4em; }
+.service .service-index { transition: color 0.25s ease; }
+.service:hover .service-index { color: var(--blue); }
+
+/* Handwritten comments straighten slightly when their row is read */
+.service-tag { transition: transform 0.3s ease; }
+.service:hover .service-tag { transform: rotate(0deg); }
+
+/* FAQ answers ease in when opened */
+.faq-list details[open] p {
+  animation: faq-open 0.3s ease;
+}
+@keyframes faq-open {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Promise cards: a pen stroke draws along the top under the cursor */
+.promise { position: relative; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.promise::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 1.75rem;
+  width: 0;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--blue);
+  transition: width 0.3s ease;
+}
+.promise:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(28, 47, 82, 0.1);
+}
+.promise:hover::before { width: 3.5rem; }
+
+/* Step numbers get their period underlined on hover */
+.step { transition: background-color 0.25s ease; }
+.step:hover { background-color: rgba(255, 217, 160, 0.07); }
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal mark,
+  html.js .reveal .hl {
+    background-size: 100% 100%;
+    transition: none;
+  }
+  .faq-list details[open] p { animation: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Reveal on scroll
+   -------------------------------------------------------------------------- */
+
+/* Animation styles apply only once the script has tagged <html> with .js,
+   so content is never hidden for visitors without JavaScript. */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  html.js .reveal { opacity: 1; transform: none; transition: none; }
+  html.js .corrected .ins,
+  html.js .corrected .caret { animation: none; opacity: 1; }
+  html.js .hero-doc del,
+  html.js .hero-doc ins,
+  html.js .hero-doc .doc-hl,
+  html.js .hero-doc .doc-note {
+    opacity: 1;
+    transition: none;
+    background-size: 100% 1.5px;
+  }
+  html.js .hero-doc .doc-hl { background-size: 100% 100%; }
+  .chip-dot { animation: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 56rem) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero::before {
+    top: auto;
+    bottom: 8rem;
+    right: -30vw;
+    width: 320px;
+    opacity: 0.7;
+  }
+  .hero-visual {
+    justify-self: start;
+    margin: 1rem 0 3.5rem 0;
+  }
+  .hero-doc {
+    left: 1rem;
+    bottom: -2.75rem;
+    width: min(19.5rem, calc(100% - 2rem));
+  }
+  .float-chip { right: 0.75rem; }
+
+  .paths-grid { grid-template-columns: 1fr; }
+
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { max-width: 30rem; margin-inline: auto; }
+
+  .steps { grid-template-columns: 1fr 1fr; border-top: none; }
+  .step { border-top: 1px solid var(--rule-dark); }
+  .step + .step { border-left: none; padding-left: 0; }
+  .step:nth-child(even) {
+    border-left: 1px solid var(--rule-dark);
+    padding-left: clamp(1.1rem, 2.5vw, 2rem);
+  }
+
+  .promise-grid { grid-template-columns: 1fr; }
+
+  .testimonial-grid { grid-template-columns: 1fr; }
+
+  .faq-grid { grid-template-columns: 1fr; }
+  .faq .section-head { position: static; margin-bottom: 2.5rem; }
+
+  .contact-grid { grid-template-columns: 1fr; }
+
+  .footer-grid { grid-template-columns: 1fr; gap: 2.25rem; }
+}
+
+@media (max-width: 44rem) {
+  .nav-toggle { display: flex; }
+
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.5rem var(--gutter) 1.25rem;
+    display: none;
+  }
+  .site-nav.is-open { display: flex; }
+  .site-nav a {
+    font-size: var(--step-0);
+    padding: 0.7rem 0;
+    width: 100%;
+  }
+  .nav-cta {
+    border: none;
+    padding: 0.7rem 0;
+    font-weight: 700;
+  }
+  .nav-cta:hover { background: transparent; color: var(--ink) !important; }
+
+  .service { grid-template-columns: 1fr; gap: 1rem; }
+
+  .steps { grid-template-columns: 1fr; }
+  .step:nth-child(even) { border-left: none; padding-left: 0; }
+
+  .check-list { grid-template-columns: 1fr; }
+}
