@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mywork.org.uk/sitemap.xml
