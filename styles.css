@@ -706,6 +706,67 @@ section { scroll-margin-top: 4.5rem; }
   background: var(--blue);
 }
 
+/* Application tracker mock — the "every CV saved" system, made visible */
+.tracker {
+  margin: 1.75rem 0;
+  max-width: 34rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.tracker-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.tracker-live { color: var(--blue); font-weight: 500; }
+.tracker-live::before {
+  content: "";
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--teal);
+  margin-right: 0.4rem;
+  animation: chip-pulse 2.2s ease-out infinite;
+}
+.tracker-rows { list-style: none; }
+.tracker-rows li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.7rem 1.1rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+}
+.t-role {
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.t-cv { color: var(--blue); font-weight: 500; }
+.t-status { color: var(--ink-soft); }
+.t-win { color: var(--blue); font-weight: 500; }
+.tracker-foot {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding: 0.8rem 1.1rem;
+}
+
 .service-note {
   font-family: var(--font-display);
   font-style: italic;
