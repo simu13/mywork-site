@@ -57,41 +57,6 @@
     revealables.forEach((el) => observer.observe(el));
   }
 
-  /* Contact form (currently replaced by the WhatsApp card — this handler
-     only runs if a form with id="contact-form" is put back).
-     No backend, so submissions open the visitor's email client with a
-     pre-filled message. */
-  const form = document.getElementById("contact-form");
-  if (form) {
-  const status = form.querySelector(".form-status");
-  const CONTACT_ADDRESS = "hello@mywork.org.uk";
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    if (!form.reportValidity()) return;
-
-    const data = new FormData(form);
-    const subject = `Consult request — ${data.get("service")}`;
-    const body = [
-      `Name: ${data.get("name")}`,
-      `Email: ${data.get("email")}`,
-      `Service: ${data.get("service")}`,
-      "",
-      String(data.get("message")),
-    ].join("\n");
-
-    window.location.href =
-      `mailto:${CONTACT_ADDRESS}` +
-      `?subject=${encodeURIComponent(subject)}` +
-      `&body=${encodeURIComponent(body)}`;
-
-    status.textContent =
-      "Your email app should open with the message ready to send. " +
-      `If it doesn't, email us at ${CONTACT_ADDRESS}.`;
-  });
-  }
-
   /* Referral code: weave it into the prefilled WhatsApp message so the
      10% off / 10% commission can be applied to the right person */
   const waCta = document.getElementById("wa-cta");
