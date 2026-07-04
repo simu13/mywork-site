@@ -1328,6 +1328,17 @@ section { scroll-margin-top: 4.5rem; }
   font-size: var(--step--1);
   color: var(--ink-soft);
 }
+.footer-referral {
+  margin-bottom: 0.85rem;
+  color: var(--ink);
+}
+.footer-referral a {
+  color: var(--blue);
+  font-weight: 600;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--marker);
+  text-underline-offset: 3px;
+}
 .footer-integrity {
   margin-top: 0.85rem;
   max-width: 30em;
